@@ -1,5 +1,5 @@
-﻿生成启动时间为 10/12/2016 9:05:33 PM。
-     1>项目“G:\软件工程作业\第二次作业\找第1亿个素数\找第1亿个素数\找第1亿个素数.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 10/12/2016 9:43:26 PM。
+     1>项目“G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\找第1亿个素数\找第1亿个素数.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\Visual studio 2013\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "找第1亿个素数.cpp"
          找第1亿个素数.cpp
@@ -7,12 +7,12 @@
      1>找第1亿个素数.cpp(99): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
      1>找第1亿个素数.cpp(160): warning C4018: “<”: 有符号/无符号不匹配
        Link:
-         D:\Visual studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\软件工程作业\第二次作业\找第1亿个素数\Release\找第1亿个素数.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\软件工程作业\第二次作业\找第1亿个素数\Release\找第1亿个素数.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\软件工程作业\第二次作业\找第1亿个素数\Release\找第1亿个素数.lib" /MACHINE:X86 /SAFESEH "Release\找第1亿个素数.obj"
+         D:\Visual studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\Release\找第1亿个素数.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\Release\找第1亿个素数.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\Release\找第1亿个素数.lib" /MACHINE:X86 /SAFESEH "Release\找第1亿个素数.obj"
          正在生成代码
          已完成代码的生成
-         找第1亿个素数.vcxproj -> G:\软件工程作业\第二次作业\找第1亿个素数\Release\找第1亿个素数.exe
-     1>已完成生成项目“G:\软件工程作业\第二次作业\找第1亿个素数\找第1亿个素数\找第1亿个素数.vcxproj”(Build 个目标)的操作。
+         找第1亿个素数.vcxproj -> G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\Release\找第1亿个素数.exe
+     1>已完成生成项目“G:\软件工程作业\Homework_personal\Homework\Homework_2\找第1亿个素数\找第1亿个素数\找第1亿个素数.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:00.87
+已用时间 00:00:03.33
