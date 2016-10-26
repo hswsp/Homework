@@ -41,7 +41,7 @@ struct Large_Inter
 	//乘法实现程序
 	void multip(Large_Inter&result, Large_Inter&mult2);
      //除法实现程序
-	void div(Large_Inter&result, Large_Inter&div2);
+	void div(Large_Inter&result, Large_Inter&div2, string & remainder);
 
 private:
 	void init(const Large_Inter &c);
@@ -53,7 +53,7 @@ private:
 	void mult_bit(const char*str1, const char bit2, int len1, int carry, Large_Inter&result);
 	void mult(const char* str1, const char*str2, int len1, int len2, Large_Inter&result);
 	//除法实现主程序
-	void div_main(Large_Inter &div1, Large_Inter &div2 ,Large_Inter&result);
+	void div_main(Large_Inter &div1, Large_Inter &div2, Large_Inter&result, string & remainder);
 };
 
 

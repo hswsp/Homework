@@ -3,8 +3,11 @@
 #include"Large_Interger.h"
 #include<ctype.h>
 #include<time.h>
+#include<iostream>
+using namespace std;
 char flag(0);
 char remain(0);    //输入还剩几行
+
 void Large_Inter::init(const Large_Inter &c)
 {
 	
@@ -17,7 +20,6 @@ Large_Inter::Large_Inter(const Large_Inter &c) :length(0)
 	Inter = new char[2*max];//存储大整数,0号存符号
 	init(c);
 }
-
 Large_Inter Large_Inter::operator = (const Large_Inter &c)         //复制控制
 {
 	init(c);
@@ -78,7 +80,7 @@ bool Large_Inter::operator<(const Large_Inter&n)
 }
 //初始化
 void Large_Inter::init(char *p)
-{//录入的ASCII为48
+{//录入0的ASCII为48
 	if (strlen(p) - 1 == 0)
 		length = 1;
 	else
@@ -108,7 +110,7 @@ void Large_Inter::print()
 	   if (Inter[i] != 0)break;
 	for (; i <= length; i++)
 		cout << Inter[i]+0;
-	 cout << endl;
+	 //cout << endl;
 }
 
 //四则运算
@@ -268,10 +270,11 @@ void Large_Inter::multip(Large_Inter&result, Large_Inter&mult2)
 		result.Inter[0] = '+';
 	mult(Inter + 1, mult2.Inter + 1, length, mult2.length, result);        //从数值位开始传递
 }
-void Large_Inter::div_main(Large_Inter &div1, Large_Inter &div2, Large_Inter&result)
+void Large_Inter::div_main(Large_Inter &div1, Large_Inter &div2, Large_Inter&result, string & remainder)
 {   //要求div1>div2
 	int len1 = div1.length, len2 = div2.length;
 	int temp(0);                  //除数补0的个数+1
+	Large_Inter temporary_result;
 	//判断结果的位数
 	int i(1);
 	for (; i <= len2; ++i)
@@ -291,7 +294,6 @@ void Large_Inter::div_main(Large_Inter &div1, Large_Inter &div2, Large_Inter&res
 		result.length = len1 - len2+1;
 	while (div1>div2||div1==div2)
 	{
-		Large_Inter temporary_result;
 		for (i=1; i <= len2; ++i)
 		{
 			if (div1.Inter[i] > div2.Inter[i])
@@ -314,10 +316,25 @@ void Large_Inter::div_main(Large_Inter &div1, Large_Inter &div2, Large_Inter&res
 		div1 = temporary_result;
 		len1 = div1.length;                                       //更新被除数                      
 	}
-	
-
+	//余数
+	string::iterator it;
+	/*if (temporary_result.Inter[0] == '-')
+	{
+		remainder.assign(temporary_result.Inter, temporary_result.length+1);
+		for (it=remainder.begin(); it!= remainder.end(); ++it)
+			*it += 48;
+	}
+	else*/
+	if (temporary_result.Inter[1]!=0)
+	{
+		remainder.append(temporary_result.Inter + 1, temporary_result.length);
+		it = remainder.begin();
+		if(remainder[0]=='-')++it;
+		for (; it != remainder.end(); ++it)
+			*it += 48;
+	}
 }
-void Large_Inter::div(Large_Inter&result, Large_Inter&div2)
+void Large_Inter::div(Large_Inter&result, Large_Inter&div2,string & remainder)
 {
 	if (div2.Inter[1] == 0 && div2.Inter[2] == 0)
 	{
@@ -329,7 +346,13 @@ void Large_Inter::div(Large_Inter&result, Large_Inter&div2)
 	if (Inter[0] == div2.Inter[0])
 		result.Inter[0] = '+';
 	else
+	{
 		result.Inter[0] = '-';
+		char a[2];
+		a[0] = '-';
+		a[1] = '\0';
+		remainder.assign(a);
+	}
 	if (div_temp1 == div_temp2)
 	{
 		result.Inter[1] = 1;
@@ -344,7 +367,7 @@ void Large_Inter::div(Large_Inter&result, Large_Inter&div2)
 		return;
 	}
 	else
-		div_main(div_temp1, div_temp2, result);
+		div_main(div_temp1, div_temp2, result, remainder);
 }
 
 
@@ -353,10 +376,9 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 {
 	char input(0);
 	int i(0);
-
+	char flago = 0;//判断第一个输入的是符号还是数字,0表示是符号或0，1是其他
 	string isoperation;
 	//左操作数
-	cout << "please input the expression:" << endl;
 	input = getchar();
     //看第一个符号位
 	if (input == EOF)
@@ -369,35 +391,55 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 	if (!isdigit(input)&&input != '+' &&input != '-')
 	{
 		remain = 2;
-		cerr << "Error Input!" << endl;
 		std::cin.clear();
 		std::cin.sync();
 		return false;
-	}
-	else if (input == '-')
-		str1[i++] = '-';
-	else
+	}//判断符号，0 还是其他数字
+	if (!isdigit(input))
 	{
-		str1[i++] = '+';
-		if (input != '0')
+		flago = 0;
+		if (input == '-')
 		{
-			str1[i++] = input;
+			str1[i++] = '-';
 		}
-	}
-
-	   while ((input = getchar()) != '\n')                                             
+		else str1[i++] = '+';
+	}		
+	 else if (input != '0')
 	{
-		   if (!isdigit(input))
-		   {
-			   remain = 2;
-			   cerr << "Error Input!" << endl;
-			   std::cin.clear();
-			   std::cin.sync();
-			   return false;
-		   }
-		else 
+		flago = 1;
+		str1[i++] = '+';
+		str1[i++] = input;
+	}
+	 else
+	 {
+		 flago = 0;
+		 str1[i++] = '+';
+	 }
+
+	 input = getchar();
+	 if (flago == 0)
+	 {
+		 while (isdigit(input))//消除0
+		 {
+			 if (input == '0')
+				 input = getchar();
+			 else
+			 {
+				 break;
+			 }
+		 }
+	 }
+	//第二个单独判断，防止出现+就没有了的情形
+		if (!isdigit(input))
 		{
-			if (i <max && input!='0')
+			remain = 2;
+			std::cin.clear();
+			std::cin.sync();
+			return false;
+		}
+		else
+		{
+			if (i < max)
 			{
 				str1[i] = input;
 				++i;
@@ -407,36 +449,117 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 				remain = 2;
 				std::cin.clear();
 				std::cin.sync();
-				cerr << "Input Overflow!" << endl;
+				return false;
+			}
+		}
+	
+		//其余进入循环
+	   while ((input = getchar()) != '\n')                                             
+	{
+		   if (!isdigit(input))
+		   {
+			   remain = 2;
+			   std::cin.clear();
+			   std::cin.sync();
+			   return false;
+		   }
+		else 
+		{
+			if (i <max)
+			{
+				str1[i] = input;
+				++i;
+			}
+			else
+			{
+				remain = 2;
+				std::cin.clear();
+				std::cin.sync();
 				return false;
 			}
 		}
 	 }
 	   str1[i] = '\0';
-	
 	//右操作数
 	i = 0,input=0;
-	
-	//看第一个符号位
 	cin >> input;
+	if (input == EOF)
+	{
+		flag = 1;
+		std::cin.clear();
+		std::cin.sync();
+		return false;
+	}
+	//看第一个符号位
 	if (!isdigit(input) && input != '+' &&input != '-')
 	{
 		remain = 1;
 		std::cin.clear();
 		std::cin.sync();
-		cerr << "Error Input!" << endl;
 		return false;
 	}
-	else if (input == '-')
-		str2[i++] = '-';
-	else
+	if (!isdigit(input))
 	{
-		str2[i++] = '+';
-		if (input != '0')
+		flago = 0;
+		if (input == '-')
 		{
-			str2[i++] = input;
+			str2[i++] = '-';
 		}
+		else
+		{
+			str2[i++] = '+';
+		}		
 	}
+	 else if (input != '0')
+	{
+		flago = 1;
+		str2[i++] = '+';
+		str2[i++] = input;
+	}
+	 else
+	 {
+		 flago = 0;
+		 str2[i++] = '+';
+	 }
+	 input = getchar();
+	 if (flago == 0)
+	 {
+		 
+		 while (isdigit(input))//消除0
+		 {
+			 if (input == '0')
+				 input = getchar();
+			 else
+			 {
+				 break;
+			 }
+		 }
+	 }
+	//第二个单独判断，防止出现+就没有了的情形
+		if (!isdigit(input))
+		{
+			remain = 1;
+			std::cin.clear();
+			std::cin.sync();
+			return false;
+		}
+		else
+		{
+			if (i < max )
+			{
+				str2[i] = input;
+				++i;
+			}
+			else
+			{
+				remain = 2;
+				std::cin.clear();
+				std::cin.sync();
+				return false;
+			}
+		}
+	
+		//其余进入循环
 	while ((input = getchar()) != '\n')
 	{
 		if (!isdigit(input))
@@ -444,12 +567,11 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 			remain = 1;
 			std::cin.clear();
 			std::cin.sync();
-			cerr << "Error Input!" << endl;
 			return false;
 		}
 		else 
 		{
-			if (i < max &&input != '0')
+			if (i < max)
 			{
 				str2[i] = input;
 				++i;
@@ -459,7 +581,6 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 				remain = 1;
 				std::cin.clear();
 				std::cin.sync();
-				cerr << "Input Overflow!" << endl;
 				return false;
 			}
 		}
@@ -469,18 +590,26 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 	getline(cin, isoperation);  //操作符必须单独成行
 	if (isoperation.size() != 1)
 	{
+		remain = -1;
 		std::cin.clear();
 		std::cin.sync();
-		cerr << "Error Input!" << endl;
+		//cerr << "Error Input!" << endl;
 		return false;
 	}
 	else
 		input = isoperation[0];
+	if (input == EOF)
+	{
+		flag = 1;
+		std::cin.clear();
+		std::cin.sync();
+		return false;
+	}
 	if (input != '+' &&input != '-'&&input != '*'&&input != '/')
 	{
 		std::cin.clear();
 		std::cin.sync();
-		cerr << "Error Input!" << endl;
+		remain = -1;
 		return false;
 	}
 	else
@@ -491,6 +620,8 @@ int main()
 {
 	while (true)
 	{
+		string remainder;//除法的余数
+		bool IS_Div;//是否是除法
 		Large_Inter result,op1,op2;
 	    string trash;
 		char *str1=new char[max];//第一个操作数
@@ -501,7 +632,7 @@ int main()
 		{
 			if (flag == 1)                       //遇到EOF
 			{
-				system("pause");
+				//system("pause");
 				return 1;
 			}
 			else if (flag == 0)
@@ -513,25 +644,42 @@ int main()
 				default:
 					break;
 				}
+				cerr << "Error Input!" << endl;
+				cout << "以上为一次测试结果-----------------------------------------------------------" << endl;
+				continue;
 			}
 		}
 		op1.init(str1);
 		op2.init(str2);
 		switch (Operator)
 		{
-		case'+':op1.sum(result, op2); break;
-		case'-':op1.sub(result, op2); break;
-		case'*':op1.multip(result, op2); break;
-		case'/':op1.div(result, op2); break;
+		case'+':op1.sum(result, op2); IS_Div = false; break;
+		case'-':op1.sub(result, op2); IS_Div = false; break;
+		case'*':op1.multip(result, op2); IS_Div = false; break;
+		case'/':op1.div(result, op2, remainder); IS_Div = true; break;
 		default:
 			cerr << "Erorr Operand" << endl;
 			break;
 		}
-		result.print();
+		if (!IS_Div)
+		{
+			result.print();
+			cout << endl;
+		}
+		else
+		{
+			result.print();
+			if (remainder.length() > 0)
+			{
+				cout << "…………";
+				cout << remainder;
+			}
+		}
+		cout << endl;
 		delete[]str1;
 		delete[] str2;
 		cout << "以上为一次测试结果-----------------------------------------------------------" << endl;
-		system("pause");
+		//system("pause");
 	}
 	/*
 	//测试代码段
