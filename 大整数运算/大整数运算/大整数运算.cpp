@@ -429,55 +429,57 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 			 }
 		 }
 	 }
-	//第二个单独判断，防止出现+就没有了的情形
-		if (!isdigit(input))
-		{
-			remain = 2;
-			std::cin.clear();
-			std::cin.sync();
-			return false;
-		}
-		else
-		{
-			if (i < max)
-			{
-				str1[i] = input;
-				++i;
-			}
-			else
-			{
-				remain = 2;
-				std::cin.clear();
-				std::cin.sync();
-				return false;
-			}
-		}
-	
-		//其余进入循环
-	   while ((input = getchar()) != '\n')                                             
-	{
-		   if (!isdigit(input))
-		   {
-			   remain = 2;
-			   std::cin.clear();
-			   std::cin.sync();
-			   return false;
-		   }
-		else 
-		{
-			if (i <max)
-			{
-				str1[i] = input;
-				++i;
-			}
-			else
-			{
-				remain = 2;
-				std::cin.clear();
-				std::cin.sync();
-				return false;
-			}
-		}
+	//第二个单独判断，防止出现+就没有了的情形。注意，可能只有一个数，所以第二个可能是回车！
+	 if (input != '\n')
+	 {
+		 if (!isdigit(input))
+		 {
+			 remain = 2;
+			 std::cin.clear();
+			 std::cin.sync();
+			 return false;
+		 }
+		 else
+		 {
+			 if (i < max)
+			 {
+				 str1[i] = input;
+				 ++i;
+			 }
+			 else
+			 {
+				 remain = 2;
+				 std::cin.clear();
+				 std::cin.sync();
+				 return false;
+			 }
+		 }
+		 //其余进入循环
+		 while ((input = getchar()) != '\n')
+		 {
+			 if (!isdigit(input))
+			 {
+				 remain = 2;
+				 std::cin.clear();
+				 std::cin.sync();
+				 return false;
+			 }
+			 else
+			 {
+				 if (i < max)
+				 {
+					 str1[i] = input;
+					 ++i;
+				 }
+				 else
+				 {
+					 remain = 2;
+					 std::cin.clear();
+					 std::cin.sync();
+					 return false;
+				 }
+			 }
+		 }
 	 }
 	   str1[i] = '\0';
 	//右操作数
@@ -535,56 +537,58 @@ bool Input_Judge(char*str1, char &Operator, char* str2)
 			 }
 		 }
 	 }
-	//第二个单独判断，防止出现+就没有了的情形
-		if (!isdigit(input))
-		{
-			remain = 1;
-			std::cin.clear();
-			std::cin.sync();
-			return false;
-		}
-		else
-		{
-			if (i < max )
-			{
-				str2[i] = input;
-				++i;
-			}
-			else
-			{
-				remain = 2;
-				std::cin.clear();
-				std::cin.sync();
-				return false;
-			}
-		}
-	
-		//其余进入循环
-	while ((input = getchar()) != '\n')
-	{
-		if (!isdigit(input))
-		{
-			remain = 1;
-			std::cin.clear();
-			std::cin.sync();
-			return false;
-		}
-		else 
-		{
-			if (i < max)
-			{
-				str2[i] = input;
-				++i;
-			}
-			else
-			{
-				remain = 1;
-				std::cin.clear();
-				std::cin.sync();
-				return false;
-			}
-		}
-	}
+	//第二个单独判断，防止出现+就没有了的情形。注意，可能只有一个数，所以第二个可能是回车！
+	 if (input != '\n')
+	 {
+		 if (!isdigit(input))
+		 {
+			 remain = 1;
+			 std::cin.clear();
+			 std::cin.sync();
+			 return false;
+		 }
+		 else
+		 {
+			 if (i < max)
+			 {
+				 str2[i] = input;
+				 ++i;
+			 }
+			 else
+			 {
+				 remain = 2;
+				 std::cin.clear();
+				 std::cin.sync();
+				 return false;
+			 }
+		 }
+		 //其余进入循环
+		 while ((input = getchar()) != '\n')
+		 {
+			 if (!isdigit(input))
+			 {
+				 remain = 1;
+				 std::cin.clear();
+				 std::cin.sync();
+				 return false;
+			 }
+			 else
+			 {
+				 if (i < max)
+				 {
+					 str2[i] = input;
+					 ++i;
+				 }
+				 else
+				 {
+					 remain = 1;
+					 std::cin.clear();
+					 std::cin.sync();
+					 return false;
+				 }
+			 }
+		 }
+	 }
 	str2[i] = '\0';
 	//操作符
 	getline(cin, isoperation);  //操作符必须单独成行
@@ -671,14 +675,14 @@ int main()
 			result.print();
 			if (remainder.length() > 0)
 			{
-				cout << "…………";
+				cout << "       ";
 				cout << remainder;
 			}
 		}
 		cout << endl;
 		delete[]str1;
 		delete[] str2;
-		cout << "以上为一次测试结果-----------------------------------------------------------" << endl;
+		//cout << "以上为一次测试结果-----------------------------------------------------------" << endl;
 		//system("pause");
 	}
 	/*
